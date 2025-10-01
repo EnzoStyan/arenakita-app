@@ -2,11 +2,11 @@
 'use client'
 
 import { useAuth } from '@/context/AuthContext'
+import Link from 'next/link'
 
 export default function AuthManager() {
   const { session, profile, logout, loading } = useAuth()
 
-  // Jangan tampilkan apa-apa selagi loading
   if (loading) {
     return null
   }
@@ -14,18 +14,20 @@ export default function AuthManager() {
   return (
     <div style={{ position: 'absolute', top: '20px', right: '20px', zIndex: 10 }}>
       {session ? (
-        // Tampilan jika sudah login
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
           <p>
-            Hello, {profile?.email || session.user.email} (<b>{profile?.role}</b>)
+            Hello, {profile?.email} (<b>{profile?.role}</b>)
           </p>
+          {/* Tambahkan Link ke Dashboard */}
+          <Link href="/dashboard">
+            <button>Dashboard</button>
+          </Link>
           <button onClick={logout}>Logout</button>
         </div>
       ) : (
-        // Tampilan jika belum login
-        <a href="/login">
+        <Link href="/login">
           <button>Login</button>
-        </a>
+        </Link>
       )}
     </div>
   )
