@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ArenaKita 🏟️
 
-## Getting Started
+ArenaKita adalah platform booking lapangan olahraga berbasis web yang dibangun untuk memudahkan pengguna menemukan dan memesan lapangan, serta membantu pengelola untuk mengatur jadwal dan pendapatan mereka.
 
-First, run the development server:
+## Deskripsi Proyek
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Proyek ini dibuat sebagai portofolio Fullstack Developer yang mencakup sistem otentikasi, manajemen database, peran pengguna yang berbeda (user, manager, admin), dan interaksi frontend-backend yang modern.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Teknologi yang Digunakan
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* **Frontend**: Next.js (React)
+* **Backend & Database**: Supabase (PostgreSQL, Auth, Storage)
+* **Styling**: Tailwind CSS
+* **Bahasa**: TypeScript
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Cara Menjalankan Proyek Secara Lokal
 
-## Learn More
+1.  **Clone repository ini:**
+    ```bash
+    git clone [URL_GITHUB_ANDA_NANTI]
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2.  **Masuk ke direktori proyek:**
+    ```bash
+    cd arenakita-app
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3.  **Install semua dependencies:**
+    ```bash
+    npm install
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4.  **Buat file `.env.local`** dan isi dengan kunci API Supabase Anda:
+    ```env
+    NEXT_PUBLIC_SUPABASE_URL=URL_PROYEK_SUPABASE_ANDA
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=KUNCI_ANON_PUBLIC_ANDA
+    ```
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5.  **Jalankan aplikasi:**
+    ```bash
+    npm run dev
+    ```
+    Aplikasi akan berjalan di `http://localhost:3000`.
