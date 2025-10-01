@@ -17,7 +17,7 @@ Proyek ini dibuat sebagai portofolio Fullstack Developer yang mencakup sistem ot
 
 1.  **Clone repository ini:**
     ```bash
-    git clone [URL_GITHUB_ANDA_NANTI]
+    git clone (https://github.com/EnzoStyan/arenakita-app)
     ```
 
 2.  **Masuk ke direktori proyek:**
