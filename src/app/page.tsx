@@ -6,7 +6,6 @@ import { supabase } from "@/lib/supabaseClient";
 import { useEffect, useState } from "react";
 import Link from 'next/link';
 
-// Definisikan tipe untuk data Venue yang akan ditampilkan
 type Venue = {
   id: string;
   name: string;
@@ -20,10 +19,9 @@ export default function Home() {
 
   useEffect(() => {
     const fetchApprovedVenues = async () => {
-      // Ambil data dari tabel 'venues' yang statusnya 'approved'
       const { data, error } = await supabase
         .from('venues')
-        .select('id, name, city, description') // Hanya ambil kolom yg perlu
+        .select('id, name, city, description')
         .eq('status', 'approved');
 
       if (error) {
@@ -38,27 +36,36 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       <AuthManager />
-      <main style={{ padding: '40px' }}>
-        <h1 style={{ textAlign: 'center', marginBottom: '40px' }}>Temukan Lapangan Olahraga Pilihanmu</h1>
+      <main className="container mx-auto px-4 py-12">
+        <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-10">
+          Temukan Lapangan Olahraga Pilihanmu
+        </h1>
         
         {loading ? (
-          <p style={{ textAlign: 'center' }}>Memuat venue...</p>
+          <p className="text-center text-gray-500">Memuat venue...</p>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {venues.length > 0 ? (
               venues.map((venue) => (
-              <Link key={venue.id} href={`/venue/${venue.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '20px', height: '100%' }}>
-                  <h2 style={{ marginTop: '0' }}>{venue.name}</h2>
-                  <p><strong>Kota:</strong> {venue.city}</p>
-                  <p>{venue.description}</p>
-                </div>
-              </Link>
+                <Link key={venue.id} href={`/venue/${venue.id}`} className="group">
+                  <div className="bg-white rounded-lg shadow-md overflow-hidden h-full flex flex-col group-hover:shadow-xl transition-shadow duration-300">
+                    {/* Di sini nanti kita bisa tambahkan gambar venue */}
+                    <div className="p-6 flex-grow">
+                      <p className="text-sm font-semibold text-indigo-600 mb-1">{venue.city}</p>
+                      <h2 className="text-xl font-bold text-gray-900 mb-2">{venue.name}</h2>
+                      <p className="text-gray-600 text-base line-clamp-3">
+                        {venue.description}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
               ))
             ) : (
-              <p style={{ textAlign: 'center' }}>Belum ada venue yang tersedia.</p>
+              <p className="text-center text-gray-500 sm:col-span-2 lg:col-span-3">
+                Belum ada venue yang tersedia.
+              </p>
             )}
           </div>
         )}

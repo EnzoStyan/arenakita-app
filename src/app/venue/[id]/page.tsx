@@ -105,49 +105,67 @@ export default function VenueDetailPage() {
       fetchBookings(field);
     }
   };
+  
 
   if (loading) return <p>Memuat detail venue...</p>;
   if (!venue) return <p>Venue tidak ditemukan.</p>;
 
   return (
-    <div style={{ padding: '40px', maxWidth: '900px', margin: 'auto' }}>
-      <Link href="/" style={{ marginBottom: '20px', display: 'inline-block' }}>&larr; Kembali</Link>
-      <h1>{venue.name}</h1>
-      <p><strong>Alamat:</strong> {venue.address}, {venue.city}</p>
-      
-      <hr style={{ margin: '30px 0' }} />
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-12">
+        <Link href="/" className="text-indigo-600 hover:text-indigo-800 transition-colors mb-6 inline-block">
+          &larr; Kembali ke Daftar Venue
+        </Link>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 md:gap-12">
+          {/* Kolom Kiri: Info Venue */}
+          <div className="md:col-span-1 mb-8 md:mb-0">
+            <h1 className="text-4xl font-bold text-gray-900">{venue.name}</h1>
+            <p className="text-lg text-gray-500 mt-2">{venue.city}</p>
+            <p className="text-md text-gray-600 mt-1">{venue.address}</p>
+            <hr className="my-6" />
+            <h3 className="text-xl font-semibold mb-2">Deskripsi</h3>
+            <p className="text-gray-700">{venue.description}</p>
+          </div>
 
-      <h2>Pilih Jadwal Booking</h2>
-      {field ? (
-        <>
-          <p>Lapangan: <strong>{field.name}</strong> - Rp {field.price_per_hour.toLocaleString()}/jam</p>
-          <div style={{ display: 'flex', gap: '10px', margin: '20px 0', flexWrap: 'wrap' }}>
-            {nextSevenDays.map(date => (
-              <button key={date.toISOString()} onClick={() => setSelectedDate(date)} style={{ background: date.toDateString() === selectedDate.toDateString() ? 'royalblue' : '#eee', color: date.toDateString() === selectedDate.toDateString() ? 'white' : 'black', border: '1px solid #ccc', padding: '10px', borderRadius: '5px', cursor: 'pointer' }}>
-                {date.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' })}
-              </button>
-            ))}
+          {/* Kolom Kanan: Jadwal Booking */}
+          <div className="md:col-span-2">
+            <h2 className="text-2xl font-bold mb-4">Pilih Jadwal Booking</h2>
+            {field ? (
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <p className="text-lg mb-4">
+                  Lapangan: <span className="font-semibold">{field.name}</span> - <span className="text-indigo-600 font-bold">Rp {field.price_per_hour.toLocaleString()}/jam</span>
+                </p>
+                
+                <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+                  {nextSevenDays.map(date => (
+                    <button key={date.toISOString()} onClick={() => setSelectedDate(date)}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap ${date.toDateString() === selectedDate.toDateString() ? 'bg-indigo-600 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}>
+                      {date.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short' })}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                  {timeSlots.map(slot => (
+                    <button key={slot.time}
+                      onClick={() => handleBooking(slot.time)}
+                      disabled={slot.status === 'Dipesan'}
+                      className="px-2 py-3 rounded-md text-white font-semibold transition-colors disabled:bg-red-400 disabled:cursor-not-allowed bg-green-500 hover:bg-green-600"
+                    >
+                      {slot.time}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <p>Venue ini belum memiliki lapangan yang bisa dibooking.</p>
+              </div>
+            )}
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '10px' }}>
-            {timeSlots.map(slot => (
-              <button key={slot.time}
-                onClick={() => handleBooking(slot.time)} // <-- HUBUNGKAN FUNGSI KE TOMBOL
-                disabled={slot.status === 'Dipesan'}
-                style={{ 
-                  padding: '15px',
-                  background: slot.status === 'Dipesan' ? '#f44336' : '#4CAF50',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '5px',
-                  cursor: slot.status === 'Dipesan' ? 'not-allowed' : 'pointer',
-                  transition: 'background-color 0.2s',
-                }}>
-                {slot.time} - {slot.status === 'Tersedia' ? 'Pesan Sekarang' : 'Dipesan'}
-              </button>
-            ))}
-          </div>
-        </>
-      ) : <p>Venue ini belum memiliki lapangan yang bisa dibooking.</p>}
+        </div>
+      </div>
     </div>
   );
 }
